@@ -136,50 +136,15 @@ fun main(){
 }
 
 fun processList(inputList: List<Any?>?): List<ItemData>? {
-    if(inputList==null)
-    	return null
-    else{
-	var id=ArrayList<ItemData>()
-    val myList = inputList
-    var c=0
-    for (item in myList!!){ 
-        var newItem = ItemData()
-        if(item!=null){
-            newItem.originalPos=c
-            newItem.originalValue=item
-            when (item){
-                is String ->{
-                	newItem.type="cadena"
-                    newItem.info="L"+(item.length).toString()                    
-                }
-                is Int ->{
-                	newItem.type="entero" 
-                    if(item%10==0)
-                    	newItem.info="M10"
-                    else if(item%5==0)
-                    	newItem.info="M5"
-                    else if(item%2==0)
-                    	newItem.info="M2"
-                    if(newItem.info=="")
-                    	newItem.info=null
-                }                 	
-                is Boolean ->{
-                    newItem.type="booleano"
-                    if(item)
-                    	newItem.info="Verdadero"
-                    else
-                    	newItem.info="Falso"
-                }                	
-                else -> {
-                    newItem.type=null
-                    newItem.info=null
-                }
-            }
-
-            id.add(newItem)
-        }
-         c++
+    if(inputList==null) return null   	
+  	var id=ArrayList<ItemData>()
+    for ((c,item) in inputList!!.withIndex()){  
+        if(item!=null)
+            id.add(when (item){
+                is String ->ItemData(c,item,"cadena","L"+(item.length).toString())
+                is Int ->ItemData(c,item,"entero",if(item%10==0) "M10" else if(item%5==0) "M5" else if(item%2==0)"M2" else null)               	
+                is Boolean  ->ItemData(c,item,"booleano",if(item) "Verdadero" else "Falso")               	
+                else -> ItemData(c,item,null,null)})
     }
     return id
-    }
 }
