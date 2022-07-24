@@ -142,49 +142,40 @@ fun processList(inputList: List<Any?>?): List<ItemData>? {
 	var id=ArrayList<ItemData>()
     val myList = inputList
     var c=0
-    for (item in myList!!){  
+    for (item in myList!!){ 
+        var newItem = ItemData()
         if(item!=null){
-            var op = c 
-            var ov = item
-            var tp: String?=""
-            var i: String?=""
+            newItem.originalPos=c
+            newItem.originalValue=item
             when (item){
                 is String ->{
-                	tp="cadena"
-                    i="L"+(item.length).toString()
-                    
+                	newItem.type="cadena"
+                    newItem.info="L"+(item.length).toString()                    
                 }
                 is Int ->{
-                	tp="entero" 
+                	newItem.type="entero" 
                     if(item%10==0)
-                    	i="M10"
+                    	newItem.info="M10"
                     else if(item%5==0)
-                    	i="M5"
+                    	newItem.info="M5"
                     else if(item%2==0)
-                    	i="M2"
-                    if(i=="")
-                    	i=null
-                } 
-                	
+                    	newItem.info="M2"
+                    if(newItem.info=="")
+                    	newItem.info=null
+                }                 	
                 is Boolean ->{
-                    tp="booleano"
+                    newItem.type="booleano"
                     if(item)
-                    	i="Verdadero"
+                    	newItem.info="Verdadero"
                     else
-                    	i="Falso"
-                }
-                	
+                    	newItem.info="Falso"
+                }                	
                 else -> {
-                    tp=null
-                    i=null
+                    newItem.type=null
+                    newItem.info=null
                 }
             }
-            val newItem = ItemData(
-  			originalPos = op,
-  			originalValue = ov,
-  			type = tp,
-  			info = i
-  			)
+
             id.add(newItem)
         }
          c++
